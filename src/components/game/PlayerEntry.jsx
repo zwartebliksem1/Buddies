@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X, Plus, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useI18n } from "@/lib/i18n";
 
 export default function PlayerEntry({ players, setPlayers, onStart }) {
   const [name, setName] = useState("");
+  const { t } = useI18n();
 
   const addPlayer = () => {
     const trimmed = name.trim();
@@ -34,7 +36,7 @@ export default function PlayerEntry({ players, setPlayers, onStart }) {
           Buddies
         </h1>
         <p className="font-body text-muted-foreground mt-3 text-lg">
-          Add your players and let the chaos begin
+          {t("playerEntry.subtitle")}
         </p>
       </div>
 
@@ -43,7 +45,7 @@ export default function PlayerEntry({ players, setPlayers, onStart }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Enter player name..."
+          placeholder={t("playerEntry.placeholder")}
           className="h-14 text-lg font-body rounded-2xl bg-card border-2 border-border focus:border-primary px-5"
         />
         <Button
@@ -85,7 +87,7 @@ export default function PlayerEntry({ players, setPlayers, onStart }) {
 
         {players.length === 0 && (
           <div className="text-center py-10 text-muted-foreground font-body">
-            No players yet — add at least 2 to play!
+            {t("playerEntry.noPlayers")}
           </div>
         )}
       </div>
@@ -100,14 +102,14 @@ export default function PlayerEntry({ players, setPlayers, onStart }) {
             className="w-full h-16 rounded-2xl text-xl font-heading font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25"
           >
             <Sparkles className="w-5 h-5 mr-2" />
-            Pick a Pair!
+            {t("playerEntry.nextPackages")}
           </Button>
         </motion.div>
       )}
 
       {players.length === 1 && (
         <p className="text-center text-muted-foreground font-body text-sm">
-          Add 1 more player to get started
+          {t("playerEntry.addOneMore")}
         </p>
       )}
     </motion.div>

@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, Pause, RotateCcw, ArrowLeft, Check } from "lucide-react";
 import { motion } from "framer-motion";
+import { useI18n } from "@/lib/i18n";
 
 export default function TaskTimer({ pair, task, onDone, onBack }) {
+  const { t } = useI18n();
   const [timeLeft, setTimeLeft] = useState(task.duration);
   const [isRunning, setIsRunning] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
@@ -67,7 +69,7 @@ export default function TaskTimer({ pair, task, onDone, onBack }) {
         className="flex items-center gap-2 text-muted-foreground hover:text-foreground font-body mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back
+        {t("common.back")}
       </button>
 
       {/* Pair names */}
@@ -119,7 +121,7 @@ export default function TaskTimer({ pair, task, onDone, onBack }) {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <div className="text-6xl mb-2">🎉</div>
-              <p className="font-heading text-xl font-bold text-accent">Time's Up!</p>
+              <p className="font-heading text-xl font-bold text-accent">{t("common.timeUp")}</p>
             </motion.div>
           ) : (
             <>
@@ -127,7 +129,7 @@ export default function TaskTimer({ pair, task, onDone, onBack }) {
                 {formatTime(timeLeft)}
               </span>
               <span className="font-body text-sm text-muted-foreground mt-1">
-                {isRunning ? "In progress..." : "Ready"}
+                {isRunning ? t("common.inProgress") : t("common.ready")}
               </span>
             </>
           )}
@@ -143,14 +145,14 @@ export default function TaskTimer({ pair, task, onDone, onBack }) {
             className="flex-1 h-14 rounded-2xl font-heading font-bold text-lg border-2"
           >
             <RotateCcw className="w-5 h-5 mr-2" />
-            Retry
+            {t("common.retry")}
           </Button>
           <Button
             onClick={onDone}
             className="flex-1 h-14 rounded-2xl font-heading font-bold text-lg bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg"
           >
             <Check className="w-5 h-5 mr-2" />
-            Next Round
+            {t("common.nextRound")}
           </Button>
         </div>
       ) : (
@@ -169,12 +171,12 @@ export default function TaskTimer({ pair, task, onDone, onBack }) {
             {isRunning ? (
               <>
                 <Pause className="w-5 h-5 mr-2" />
-                Pause
+                {t("common.pause")}
               </>
             ) : (
               <>
                 <Play className="w-5 h-5 mr-2" />
-                {timeLeft < task.duration ? "Resume" : "Start"}
+                {timeLeft < task.duration ? t("common.resume") : t("common.start")}
               </>
             )}
           </Button>

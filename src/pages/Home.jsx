@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PlayerEntry from "../components/game/PlayerEntry";
+import PackageSelect from "../components/game/PackageSelect";
 import PairReveal from "../components/game/PairReveal";
 import TaskTimer from "../components/game/TaskTimer";
 
 export default function Home() {
   const [players, setPlayers] = useState([]);
-  const [screen, setScreen] = useState("entry"); // entry, reveal, timer
+  const [selectedPackages, setSelectedPackages] = useState(["familyFun"]);
+  const [mixedPackagesEnabled, setMixedPackagesEnabled] = useState(false);
+  const [screen, setScreen] = useState("entry"); // entry, packages, reveal, timer
   const [currentPair, setCurrentPair] = useState([]);
   const [currentTask, setCurrentTask] = useState(null);
   const [revealKey, setRevealKey] = useState(0);
 
-  const handlePickPair = () => {
+  const handleGoToPackages = () => {
+    setScreen("packages");
+  };
+
+  const handleStartGame = () => {
     setRevealKey((k) => k + 1);
     setScreen("reveal");
   };
@@ -29,6 +36,10 @@ export default function Home() {
 
   const handleBackToEntry = () => {
     setScreen("entry");
+  };
+
+  const handleBackToPackages = () => {
+    setScreen("packages");
   };
 
   return (
@@ -53,7 +64,27 @@ export default function Home() {
               <PlayerEntry
                 players={players}
                 setPlayers={setPlayers}
-                onStart={handlePickPair}
+                onStart={handleGoToPackages}
+              />
+            </motion.div>
+          )}
+
+          {screen === "packages" && (
+            <motion.div
+              key="packages"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.25 }}
+              className="w-full"
+            >
+              <PackageSelect
+                selectedPackages={selectedPackages}
+                setSelectedPackages={setSelectedPackages}
+                mixedPackagesEnabled={mixedPackagesEnabled}
+                setMixedPackagesEnabled={setMixedPackagesEnabled}
+                onBack={handleBackToEntry}
+                onStartGame={handleStartGame}
               />
             </motion.div>
           )}
@@ -69,8 +100,9 @@ export default function Home() {
             >
               <PairReveal
                 players={players}
+                selectedPackages={selectedPackages}
                 onStartTimer={handleStartTimer}
-                onBack={handleBackToEntry}
+                onBack={handleBackToPackages}
               />
             </motion.div>
           )}

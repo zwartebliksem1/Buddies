@@ -5,10 +5,12 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import Home from './pages/Home';
 
+const basename = import.meta.env.VITE_BASE_PATH ?? '/';
+
 function App() {
   return (
     <QueryClientProvider client={queryClientInstance}>
-      <Router>
+      <Router basename={basename}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />

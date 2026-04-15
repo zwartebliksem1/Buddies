@@ -43,14 +43,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="h-[100dvh] bg-background flex flex-col overflow-hidden">
       {/* Decorative gradient blobs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative flex-1 flex items-center justify-center px-5 py-10">
+      <div
+        className={`relative flex-1 min-h-0 px-5 ${
+          screen === "entry"
+            ? "py-4 overflow-hidden"
+            : "py-10 flex items-center justify-center"
+        }`}
+      >
         <AnimatePresence mode="wait">
           {screen === "entry" && (
             <motion.div
@@ -59,7 +65,7 @@ export default function Home() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.25 }}
-              className="w-full"
+              className="w-full h-full"
             >
               <PlayerEntry
                 players={players}

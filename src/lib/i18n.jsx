@@ -18,7 +18,10 @@ const translations = {
       start: "Start",
       goHome: "Go Home",
       minuteShort: "min",
-      secondShort: "s"
+      secondShort: "s",
+      done: "Done!",
+      revealWord: "Tap to reveal word",
+      hiddenWord: "Hidden word:"
     },
     playerEntry: {
       subtitle: "Add your players and let the chaos begin",
@@ -43,7 +46,13 @@ const translations = {
     packages: {
       familyFun: "Family Fun",
       spicy: "Spicy",
-      athletic: "Athletic"
+      athletic: "Athletic",
+      drinking: "Drinking",
+      couples: "Couples",
+      quiet: "Quiet",
+      icebreaker: "Icebreaker",
+      noHands: "No Hands",
+      extreme: "Extreme"
     },
     pairReveal: {
       title: "Game Time",
@@ -52,7 +61,7 @@ const translations = {
       packageListTitle: "Packages",
       packageListHelp: "Select one or more packages to mix (up to 3).",
       mixLabel: "Mixing:",
-      shuffle: "Shuffle",
+      skip: "Skip",
       start: "Start!"
     },
     pageNotFound: {
@@ -121,7 +130,8 @@ const translations = {
       paperAirplaneFleet: "Make and launch two paper airplanes together",
       matchTempoSteps: "Match steps and tempo for 30 seconds",
       storyWithFiveWords: "Create one story using exactly five chosen words",
-      silentMovieScene: "Act out a silent movie scene together"
+      silentMovieScene: "Act out a silent movie scene together",
+      silentDescription: "Player 1 describes a word, without saying anything"
     }
   },
   nl: {
@@ -139,7 +149,10 @@ const translations = {
       start: "Start",
       goHome: "Naar home",
       minuteShort: "min",
-      secondShort: "s"
+      secondShort: "s",
+      done: "Klaar!",
+      revealWord: "Tik om woord te onthullen",
+      hiddenWord: "Geheim woord:"
     },
     playerEntry: {
       subtitle: "Voeg spelers toe en laat de chaos beginnen",
@@ -164,7 +177,13 @@ const translations = {
     packages: {
       familyFun: "Familiepret",
       spicy: "Spicy",
-      athletic: "Atletisch"
+      athletic: "Atletisch",
+      drinking: "Drinken",
+      couples: "Koppels",
+      quiet: "Stil",
+      icebreaker: "Ijsbreker",
+      noHands: "Geen handen",
+      extreme: "Extreem"
     },
     pairReveal: {
       title: "Speltijd",
@@ -173,7 +192,7 @@ const translations = {
       packageListTitle: "Pakketten",
       packageListHelp: "Selecteer een of meerdere pakketten om te mixen (max 3).",
       mixLabel: "Mix:",
-      shuffle: "Shuffle",
+      skip: "Skip",
       start: "Start!"
     },
     pageNotFound: {
@@ -242,7 +261,8 @@ const translations = {
       paperAirplaneFleet: "Maak en lanceer samen twee papieren vliegtuigen",
       matchTempoSteps: "Loop samen 30 seconden in exact hetzelfde tempo",
       storyWithFiveWords: "Maak samen een verhaal met precies vijf gekozen woorden",
-      silentMovieScene: "Speel samen een stille film scene na"
+      silentMovieScene: "Speel samen een stille film scene na",
+      silentDescription: "Speler 1 beeldt een woord uit zonder iets te zeggen"
     }
   }
 };

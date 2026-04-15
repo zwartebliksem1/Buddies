@@ -50,13 +50,7 @@ export default function Home() {
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
       </div>
 
-      <div
-        className={`relative flex-1 min-h-0 px-5 ${
-          screen === "entry"
-            ? "py-4 overflow-hidden"
-            : "py-10 flex items-center justify-center"
-        }`}
-      >
+      <div className="relative flex-1 min-h-0 px-5 py-4 overflow-hidden">
         <AnimatePresence mode="wait">
           {screen === "entry" && (
             <motion.div
@@ -82,7 +76,7 @@ export default function Home() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.25 }}
-              className="w-full"
+              className="w-full h-full"
             >
               <PackageSelect
                 selectedPackages={selectedPackages}
@@ -102,7 +96,7 @@ export default function Home() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.25 }}
-              className="w-full"
+              className="w-full h-full"
             >
               <PairReveal
                 players={players}
@@ -120,7 +114,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
-              className="w-full"
+              className="w-full h-full"
             >
               <TaskTimer
                 pair={currentPair}

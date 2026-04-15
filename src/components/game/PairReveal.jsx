@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Shuffle, Play, ArrowLeft } from "lucide-react";
+import { SkipForward, Play, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
 
@@ -9,6 +9,7 @@ const TASKS = [
   { key: "stackItems", emoji: "🧱", duration: 20, pack: "familyFun" },
   { key: "reverseAlphabet", emoji: "🔤", duration: 60, pack: "familyFun" },
   { key: "buildPaperTower", emoji: "🗼", duration: 90, pack: "familyFun" },
+  { key: "silentDescription", emoji: "🤐", duration: 60, pack: "familyFun", hasHiddenWord: true },
   { key: "mirrorStretch", emoji: "🧘", duration: 60, pack: "athletic" },
   { key: "silentLineup", emoji: "🤐", duration: 45, pack: "spicy" },
   { key: "jointStory", emoji: "📖", duration: 120, pack: "familyFun" },
@@ -58,23 +59,55 @@ const TASKS = [
   { key: "matchTempoSteps", emoji: "👣", duration: 60, pack: "athletic" },
   { key: "storyWithFiveWords", emoji: "🧾", duration: 90, pack: "spicy" },
   { key: "silentMovieScene", emoji: "🎬", duration: 90, pack: "spicy" },
+  { key: "extremeChallenge", emoji: "⚡", duration: 60, pack: "extreme" }
 ];
+
+const HIDDEN_WORDS = {
+  en: [
+    "Banana", "Helicopter", "Elephant", "Sunglasses", "Guitar", 
+    "Snowman", "Pancake", "Kangaroo", "Backpack", "Octopus", 
+    "Microphone", "Spider", "Tornado", "Diamond", "Volcano",
+    "Camera", "Rocket", "Pirate", "Dragon", "Castle"
+  ],
+  nl: [
+    "Banaan", "Helikopter", "Olifant", "Zonnebril", "Gitaar",
+    "Sneeuwpop", "Pannenkoek", "Kangoeroe", "Rugzak", "Octopus",
+    "Microfoon", "Spin", "Tornado", "Diamant", "Vulkaan",
+    "Camera", "Raket", "Piraat", "Draak", "Kasteel"
+  ]
+};
 
 function pickRandom(arr, count) {
   const shuffled = [...arr].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
 
+let currentTaskDeck = [];
+let lastPackagesKey = "";
+
 export default function PairReveal({ players, selectedPackages, onStartTimer, onBack }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [pair, setPair] = useState([]);
   const [task, setTask] = useState(null);
   const [revealed, setRevealed] = useState(false);
 
   const pickNew = () => {
-    const pool = TASKS.filter((taskItem) => selectedPackages.includes(taskItem.pack));
+    const packKey = [...selectedPackages].sort().join(",");
+    
+    if (currentTaskDeck.length === 0 || lastPackagesKey !== packKey) {
+      const pool = TASKS.filter((taskItem) => selectedPackages.includes(taskItem.pack));
+      currentTaskDeck = pickRandom(pool, pool.length);
+      lastPackagesKey = packKey;
+    }
+
     const newPair = pickRandom(players, 2);
-    const newTask = pool[Math.floor(Math.random() * pool.length)] ?? TASKS[0];
+    let newTask = currentTaskDeck.pop() ?? TASKS[0];
+
+    if (newTask?.hasHiddenWord) {
+      const wordList = HIDDEN_WORDS[language] || HIDDEN_WORDS.en;
+      newTask = { ...newTask, hiddenWord: wordList[Math.floor(Math.random() * wordList.length)] };
+    }
+
     setPair(newPair);
     setTask(newTask);
     setRevealed(false);
@@ -89,17 +122,21 @@ export default function PairReveal({ players, selectedPackages, onStartTimer, on
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-md mx-auto text-center"
+      className="w-full h-full max-w-md mx-auto flex flex-col pt-2"
     >
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-muted-foreground hover:text-foreground font-body mb-6 transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        {t("common.back")}
-      </button>
+      <div className="shrink-0">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground font-body mb-4 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          {t("common.back")}
+        </button>
+      </div>
 
-      <h2 className="font-heading text-2xl font-bold text-foreground mb-8">{t("pairReveal.title")}</h2>
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col justify-center pb-8 px-1 -mx-1 text-center">
+        <div className="w-full">
+          <h2 className="font-heading text-2xl font-bold text-foreground mb-8">{t("pairReveal.title")}</h2>
 
       <p className="font-body text-xs text-muted-foreground mb-6">
         {t("pairReveal.mixLabel")} {selectedPackages.map((packKey) => t(`packages.${packKey}`)).join(", ")}
@@ -152,15 +189,14 @@ export default function PairReveal({ players, selectedPackages, onStartTimer, on
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div className="flex gap-3">
+      <div className="flex gap-3 w-full shrink-0 pt-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-gradient-to-t from-background via-background/95 to-transparent">
         <Button
           onClick={pickNew}
           variant="outline"
           className="flex-1 h-14 rounded-2xl font-heading font-bold border-2"
         >
-          <Shuffle className="w-5 h-5 mr-2" />
-          {t("pairReveal.shuffle")}
+          <SkipForward className="w-5 h-5 mr-2" />
+          {t("pairReveal.skip")}
         </Button>
         {task && (
           <Button
@@ -172,6 +208,9 @@ export default function PairReveal({ players, selectedPackages, onStartTimer, on
           </Button>
         )}
       </div>
+        </div>
+      </div>
+
     </motion.div>
   );
 }

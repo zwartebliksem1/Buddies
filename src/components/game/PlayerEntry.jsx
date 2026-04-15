@@ -57,7 +57,7 @@ export default function PlayerEntry({ players, setPlayers, onStart }) {
         </Button>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto pb-4">
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pb-4 px-1 -mx-1">
         <div className="space-y-2 min-h-[100px]">
           <AnimatePresence mode="popLayout">
             {players.map((player, index) => (
